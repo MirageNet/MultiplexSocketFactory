@@ -18,5 +18,27 @@ namespace Mirage.Sockets.Multiplex
                 socket = socket
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ConnectionEndPoint other)
+            {
+                return socket.Equals(other.socket) && inner.Equals(other.inner);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + socket.GetHashCode();
+            hash = hash * 23 + inner.GetHashCode();
+            return hash;
+        }
+
+        public override string ToString()
+        {
+            return $"Socket:{socket} EndPoint{inner}";
+        }
     }
 }
