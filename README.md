@@ -1,7 +1,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-brightgreen.svg)](https://miragenet.github.io/Mirage/)
 [![Discord](https://img.shields.io/discord/809535064551456888.svg)](https://discordapp.com/invite/yp6W73Xs68)
-[![release](https://img.shields.io/github/release/James-Frowen/MultiplexSocket.svg)](https://github.com/James-Frowen/MultiplexSocket/releases/latest)
-[![openupm](https://img.shields.io/npm/v/com.james-frowen.MultiplexSocket?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.james-frowen.MultiplexSocket/)
+[![release](https://img.shields.io/github/release/MirageNet/MultiplexSocketFactory.svg)](https://github.com/MirageNet/MultiplexSocketFactory/releases/latest)
+[![openupm](https://img.shields.io/npm/v/com.miragenet.multiplexsocket?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.miragenet.multiplexsocket/)
 
 Plugin for [Mirage](https://github.com/MirageNet/Mirage).
 
