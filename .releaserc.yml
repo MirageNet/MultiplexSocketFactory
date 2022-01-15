@@ -1,0 +1,17 @@
+plugins:
+  - '@semantic-release/github'
+  - '@semantic-release/release-notes-generator'
+  - '@semantic-release/commit-analyzer'
+  - - '@semantic-release/exec'
+    - prepareCmd: "sed -i -e '/AssemblyVersion/s/\".*\"/\"${nextRelease.version}\"/' 
+        Assets/MultiplexSocket/Runtime/AssemblyInfo.cs"
+  - - '@semantic-release/changelog'
+    - changelogFile: 'Assets/MultiplexSocket/CHANGELOG.md'
+  - - '@semantic-release/npm'
+    - npmPublish: false
+      pkgRoot: "Assets/MultiplexSocket"
+  - - '@semantic-release/git'
+    - assets:
+        - 'Assets/MultiplexSocket/Runtime/AssemblyInfo.cs'
+        - 'Assets/MultiplexSocket/package.json'
+        - 'Assets/MultiplexSocket/CHANGELOG.md'
