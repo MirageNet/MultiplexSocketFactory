@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mirage.SocketLayer;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ namespace Mirage.Sockets.Multiplex
     {
         [Header("Sockets to use in order of priority")]
         public List<SocketFactory> Factories;
+
+        // pick lowest size, so that mirage can be configured to work with any of them
+        public override int MaxPacketSize => Factories.Min(x => x.MaxPacketSize);
 
         public override ISocket CreateServerSocket()
         {
