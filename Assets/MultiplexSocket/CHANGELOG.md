@@ -1,3 +1,13 @@
+# [2.0.0](https://github.com/MirageNet/MultiplexSocketFactory/compare/v1.0.1...v2.0.0) (2022-03-20)
+
+
+* feat!: adding MaxPacketSize for Mirage v120 ([3fc7c6a](https://github.com/MirageNet/MultiplexSocketFactory/commit/3fc7c6a8ff3777b4a4044fe52eb523fe2dbb9992))
+
+
+### BREAKING CHANGES
+
+* requires upgrade to Mirage v120
+
 ## [1.0.1](https://github.com/MirageNet/MultiplexSocketFactory/compare/v1.0.0...v1.0.1) (2022-01-15)
 
 
