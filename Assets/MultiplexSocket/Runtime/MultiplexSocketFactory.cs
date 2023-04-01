@@ -14,6 +14,9 @@ namespace Mirage.Sockets.Multiplex
         [Header("Sockets to use in order of priority")]
         public List<SocketFactory> Factories;
 
+        // once we find a SocketFactory that works on client, we want to keep using it
+        private SocketFactory _clientFactory;
+
         // pick lowest size, so that mirage can be configured to work with any of them
         public override int MaxPacketSize => Factories.Min(x => x.MaxPacketSize);
 
@@ -21,6 +24,7 @@ namespace Mirage.Sockets.Multiplex
         {
             ThrowIfNoFactories();
 
+            // server needs to listen on all sockets
             var sockets = new ISocket[Factories.Count];
             for (int i = 0; i < Factories.Count; i++)
             {
@@ -34,6 +38,7 @@ namespace Mirage.Sockets.Multiplex
         {
             ThrowIfNoFactories();
 
+            // server needs to listen on all sockets
             var endPoints = new IEndPoint[Factories.Count];
             for (int i = 0; i < Factories.Count; i++)
             {
@@ -43,42 +48,50 @@ namespace Mirage.Sockets.Multiplex
             return new BindEndPoint(endPoints);
         }
 
-        public override ISocket CreateClientSocket()
+        private SocketFactory FindSupportedFactory()
         {
-            ThrowIfNoFactories();
-
             // try each factory and return the first one that is supported
             // SocketFactory are expected to throw NotSupportedException when they are not supported for the current platform
             foreach (SocketFactory factory in Factories)
             {
                 try
                 {
-                    return factory.CreateClientSocket();
+                    // see if factory is supported by creating a socket
+                    // socket should not do anything until bind/connect is called, so we can just discard it
+                    _ = factory.CreateClientSocket();
+                    // we found a socket that works, store it so we can use it later
+                    return factory;
                 }
                 catch (NotSupportedException) { }
             }
 
             throw new NotSupportedException("No Socket supported");
+        }
+
+        public override ISocket CreateClientSocket()
+        {
+            ThrowIfNoFactories();
+
+            // if we have already found a good factory, keep using it
+            if (_clientFactory == null)
+                _clientFactory = FindSupportedFactory();
+
+            return _clientFactory.CreateClientSocket();
+
+
         }
         public override IEndPoint GetConnectEndPoint(string address = null, ushort? port = null)
         {
             ThrowIfNoFactories();
 
-            // try each factory and return the first one that is supported
-            // SocketFactory are expected to throw NotSupportedException when they are not supported for the current platform
-            foreach (SocketFactory factory in Factories)
-            {
-                try
-                {
-                    return factory.GetConnectEndPoint(address, port);
-                }
-                catch (NotSupportedException) { }
-            }
+            // if we have already found a good factory, keep using it
+            if (_clientFactory == null)
+                _clientFactory = FindSupportedFactory();
 
-            throw new NotSupportedException("No Socket supported");
+            return _clientFactory.GetConnectEndPoint(address, port);
         }
 
-        void ThrowIfNoFactories()
+        private void ThrowIfNoFactories()
         {
             if (Factories.Count == 0)
                 throw new InvalidOperationException("Factories list empty, add atleast 2 SocketFactory to list to use MultiplexSocketFactory correctly");
