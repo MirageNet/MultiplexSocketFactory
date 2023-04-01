@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/MirageNet/MultiplexSocketFactory/compare/v2.0.0...v2.0.1) (2023-04-01)
+
+
+### Bug Fixes
+
+* fixing create incorrect endpoint when using 2nd factory ([9eb5efa](https://github.com/MirageNet/MultiplexSocketFactory/commit/9eb5efa2bc120dfb35e1d37b86a91aa95cbd8412))
+
 # [2.0.0](https://github.com/MirageNet/MultiplexSocketFactory/compare/v1.0.1...v2.0.0) (2022-03-20)
 
 
